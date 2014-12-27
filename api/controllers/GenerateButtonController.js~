@@ -1,0 +1,41 @@
+/**
+ * GenerateButtonController
+ *
+ * @description :: Server-side logic for managing generatebuttons
+ * @help        :: See http://links.sailsjs.org/docs/controllers
+ */
+var Coinbase = require('coinbase');
+var coinbase = new Coinbase({
+	APIKey: "3yCVmI2pYda2bFiP",
+	APISecret: "N8j5QnRjDPYmys6tphToyV3WAPY3hhdd"
+});
+
+module.exports = {
+	'generateButton': function(req, res){
+
+	var param = {
+		"button": {
+			"name": req.param('name'),
+			"price_string": req.param('price_string'),
+			"price_currency_iso": req.param('price_currency_iso'),
+			"custom": req.param('custom'),
+			"description": req.param('description'),
+			"type": "buy_now",
+			"style": 'custom_large' 
+		}
+	};
+		
+		coinbase.buttons.create(param, function (err, data) {
+		  if (err) throw err;
+		  GenerateButton.create(param, function(err, data){
+		  		if(err){
+		  			throw err;
+		  		} else{
+		  			console.log(data);
+					return data;
+		  		}
+		  });	
+		});				
+	}
+};
+
